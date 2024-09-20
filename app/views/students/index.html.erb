@@ -1,0 +1,74 @@
+<div class="container-fluid">
+<div class="col-md-12">
+<div class="text-danger"><h3>Students List</h3></div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Mark</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td><%= student.student_name %></td>
+        <td><%= student.subject_name %></td>
+        <td><%= student.mark %></td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <%= link_to 'Edit', edit_student_path(student), class: 'dropdown-item' %></br>
+              <%= link_to 'Delete', student,data: { turbo_method: :delete }, class: 'dropdown-item' %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudentModal">
+  Add
+</button>
+</div>
+</div>
+
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="addStudentModalLabel">Add Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+     <div class="modal-body">
+  <%= form_with(model: Student.new, url: students_path, local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :student_name, 'Student Name' %>
+      <%= form.text_field :student_name, class: 'form-control', required: true %>
+    </div>
+    <div class="form-group">
+      <%= form.label :subject_name, 'Subject' %>
+      <%= form.text_field :subject_name, class: 'form-control', required: true %>
+    </div>
+    <div class="form-group">
+      <%= form.label :mark, 'Mark' %>
+      <%= form.number_field :mark, class: 'form-control', required: true %>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <%= form.submit 'Add', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
+</div>
+</div>
+</div>
